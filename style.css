@@ -1,0 +1,318 @@
+/* ===== BASIC SETTINGS ===== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: #f5f5f5;
+    color: #222;
+}
+
+
+/* ===== NAVIGATION BAR ===== */
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 20px 5%;
+
+    background-color: #292929;
+    color: white;
+}
+
+.logo h2 {
+    font-size: 25px;
+}
+
+.logo p {
+    font-size: 13px;
+    margin-top: 5px;
+    color: #ccc;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 22px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.nav-links a:hover {
+    color: #4385f5;
+}
+
+
+/* ===== HERO SECTION ===== */
+
+.hero {
+    min-height: 420px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 50px 10%;
+
+    background-color: #454545;
+    color: white;
+
+    gap: 30px;
+}
+
+.hero-content {
+    max-width: 600px;
+}
+
+.hero-content h1 {
+    font-size: 34px;
+    margin-bottom: 18px;
+}
+
+.hero-content h3 {
+    color: #4385f5;
+    margin-bottom: 15px;
+}
+
+.hero-content p {
+    font-size: 16px;
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+.hero-image img {
+    width: 280px;
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+
+/* ===== BUTTONS ===== */
+
+.btn {
+    display: inline-block;
+
+    padding: 12px 24px;
+
+    background-color: #3478f6;
+    color: white;
+
+    text-decoration: none;
+    font-weight: bold;
+
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    background-color: #205ac4;
+}
+
+
+/* ===== ABOUT SECTION ===== */
+
+.about {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 60px;
+    padding: 55px 10%;
+
+    background-color: white;
+}
+
+.about-image {
+    flex: 1;
+    text-align: center;
+}
+
+.about-image img {
+    width: 300px;
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.about-content {
+    flex: 1.5;
+}
+
+.about-content h2 {
+    font-size: 30px;
+    margin-bottom: 22px;
+}
+
+.about-content h2::after {
+    content: "";
+    display: block;
+
+    width: 35px;
+    height: 3px;
+
+    background-color: #3478f6;
+    margin-top: 12px;
+}
+
+.about-content p {
+    color: #666;
+    line-height: 1.8;
+    font-size: 15px;
+    margin-bottom: 18px;
+}
+
+
+/* ===== SKILLS SECTION ===== */
+
+.skills {
+    padding: 60px 10%;
+    text-align: center;
+    background-color: #f5f5f5;
+}
+
+.skills h2,
+.projects h2,
+.contact h2 {
+    font-size: 30px;
+    margin-bottom: 25px;
+}
+
+.skills p {
+    line-height: 2;
+    word-spacing: 8px;
+}
+
+
+/* ===== PROJECTS SECTION ===== */
+
+.projects {
+    padding: 60px 10%;
+    text-align: center;
+    background-color: white;
+}
+
+.project-card {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 25px;
+
+    background-color: #f5f5f5;
+    border-radius: 8px;
+
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+}
+
+.project-card h3 {
+    margin-bottom: 12px;
+}
+
+.project-card p {
+    color: #666;
+    line-height: 1.7;
+}
+
+
+/* ===== CONTACT SECTION ===== */
+
+.contact {
+    padding: 60px 10%;
+    text-align: center;
+    background-color: #eaeef5;
+}
+
+.contact p {
+    margin-bottom: 15px;
+}
+
+
+/* ===== FOOTER ===== */
+
+footer {
+    padding: 20px;
+    text-align: center;
+
+    background-color: #292929;
+    color: white;
+
+    font-size: 14px;
+}
+
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+@media (max-width: 900px) {
+
+    .navbar {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .hero {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .about {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .about-content h2::after {
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+
+@media (max-width: 480px) {
+
+    .logo h2 {
+        font-size: 22px;
+    }
+
+    .hero-content h1 {
+        font-size: 27px;
+    }
+
+    .hero-image img,
+    .about-image img {
+        width: 230px;
+    }
+
+    .nav-links {
+        gap: 12px;
+    }
+
+    .nav-links a {
+        font-size: 11px;
+    }
+
+    .hero,
+    .about,
+    .skills,
+    .projects,
+    .contact {
+        padding: 40px 6%;
+    }
+}

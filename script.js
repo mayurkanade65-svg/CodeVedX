@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // =====================================================
     // 1. CONFIGURATION
     // =====================================================
+    const SUPABASE_URL = "https://gtzspiosjpwrgybxoqjl.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_mAQZhV4VjFBusSQQ0rM_lg_QNVFm3g7";
 
     // Replace this with your actual email address.
     const YOUR_EMAIL = "YOUR_EMAIL@gmail.com";
@@ -405,57 +407,85 @@ document.addEventListener("DOMContentLoaded", function () {
     renderProjects();
 
 
+    
     // =====================================================
-    // 8. CONTACT FORM
-    // This opens the visitor's email application.
-    // It does not send mail directly from the website.
+    // 8. CONTACT FORM - SAVE MESSAGES TO SUPABASE
     // =====================================================
 
     const contactForm = document.getElementById("contactForm");
     const contactStatus = document.getElementById("contactStatus");
 
     if (contactForm) {
-        contactForm.addEventListener("submit", function (event) {
+        contactForm.addEventListener("submit", async function (event) {
             event.preventDefault();
 
             if (!contactForm.reportValidity()) return;
-
-            if (
-                !YOUR_EMAIL ||
-                YOUR_EMAIL === "YOUR_EMAIL@gmail.com"
-            ) {
-                if (contactStatus) {
-                    contactStatus.textContent =
-                        "Please configure your email address in script.js.";
-                }
-
-                return;
-            }
 
             const name = document.getElementById("contactName").value.trim();
             const email = document.getElementById("contactEmail").value.trim();
             const subject = document.getElementById("contactSubject").value.trim();
             const message = document.getElementById("contactMessage").value.trim();
 
-            const body = [
-                "Name: " + name,
-                "Reply email: " + email,
-                "",
-                "Message:",
-                message
-            ].join("\n");
-
-            const mailtoURL =
-                "mailto:" + YOUR_EMAIL +
-                "?subject=" + encodeURIComponent(subject) +
-                "&body=" + encodeURIComponent(body);
-
-            if (contactStatus) {
-                contactStatus.textContent =
-                    "Opening your email application. Please send the message there.";
+            if (!name || !email || !subject || !message) {
+                if (contactStatus) {
+                    contactStatus.textContent = "Please fill in all fields.";
+                }
+                return;
             }
 
-            window.location.href = mailtoURL;
+            const submitButton = contactForm.querySelector(
+                'button[type="submit"], input[type="submit"]'
+            );
+
+            if (submitButton) submitButton.disabled = true;
+
+            if (contactStatus) {
+                contactStatus.textContent = "Sending your message...";
+            }
+
+            try {
+                const response = await fetch(
+                    `${SUPABASE_URL}/rest/v1/contact_messages`,
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "apikey": SUPABASE_KEY,
+                            "Authorization": `Bearer ${SUPABASE_KEY}`,
+                            "Prefer": "return=minimal"
+                        },
+                        body: JSON.stringify({
+                            name: name,
+                            email: email,
+                            subject: subject,
+                            message: message
+                        })
+                    }
+                );
+
+                if (!response.ok) {
+                    const errorDetails = await response.text();
+                    console.error("Supabase error:", errorDetails);
+                    throw new Error("Unable to save message.");
+                }
+
+                if (contactStatus) {
+                    contactStatus.textContent =
+                        "Thank you! Your message was sent successfully.";
+                }
+
+                contactForm.reset();
+
+            } catch (error) {
+                console.error("Contact form error:", error);
+
+                if (contactStatus) {
+                    contactStatus.textContent =
+                        "Sorry, your message could not be sent. Please try again.";
+                }
+            } finally {
+                if (submitButton) submitButton.disabled = false;
+            }
         });
     }
 

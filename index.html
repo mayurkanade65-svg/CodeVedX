@@ -84,31 +84,135 @@
     </section>
 
     <!-- Skills Section -->
-    <section id="skills" class="skills">
+    <!-- Interactive Skills Section -->
+<section id="skills" class="skills">
 
-        <h2>MY SKILLS</h2>
+    <h2>MY TECHNICAL SKILLS</h2>
 
-        <p>HTML | CSS | JavaScript | Java | GitHub</p>
+    <p class="skills-subtitle">
+        Technologies I am learning and working with
+    </p>
 
-    </section>
+    <div class="skills-container">
+
+        <!-- HTML -->
+        <button class="skill-card" type="button" data-skill="html">
+            <span class="skill-icon">🌐</span>
+            <h3>HTML</h3>
+            <p>Web Structure</p>
+            <span class="skill-action">Explore →</span>
+        </button>
+
+        <!-- CSS -->
+        <button class="skill-card" type="button" data-skill="css">
+            <span class="skill-icon">🎨</span>
+            <h3>CSS</h3>
+            <p>Web Styling</p>
+            <span class="skill-action">Explore →</span>
+        </button>
+
+        <!-- JavaScript -->
+        <button class="skill-card" type="button" data-skill="javascript">
+            <span class="skill-icon">⚡</span>
+            <h3>JavaScript</h3>
+            <p>Web Interactivity</p>
+            <span class="skill-action">Explore →</span>
+        </button>
+
+        <!-- Java -->
+        <button class="skill-card" type="button" data-skill="java">
+            <span class="skill-icon">☕</span>
+            <h3>Java</h3>
+            <p>Programming</p>
+            <span class="skill-action">Explore →</span>
+        </button>
+
+        <!-- GitHub -->
+        <button class="skill-card" type="button" data-skill="github">
+            <span class="skill-icon">💻</span>
+            <h3>GitHub</h3>
+            <p>Version Control</p>
+            <span class="skill-action">Explore →</span>
+        </button>
+
+    </div>
+
+    <!-- Dynamic skill description -->
+    <div id="skillDetails" aria-live="polite">
+        <h3>Explore My Skills</h3>
+        <p>Click on any card to discover more.</p>
+    </div>
+
+</section>
 
     <!-- Projects Section -->
-    <section id="projects" class="projects">
+<section id="projects" class="projects">
 
-        <h2>MY PROJECTS</h2>
+    <h2>MY PROJECTS</h2>
 
-        <div class="project-card">
+    <!-- Project Filter Buttons -->
+    <div class="project-filters">
+        <button class="filter-btn active" data-filter="all">
+            All
+        </button>
 
+        <button class="filter-btn" data-filter="web">
+            Web Development
+        </button>
+
+        <button class="filter-btn" data-filter="iot">
+            IoT
+        </button>
+
+        <button class="filter-btn" data-filter="java">
+            Java
+        </button>
+    </div>
+
+    <!-- Project Cards Container -->
+    <div class="projects-container">
+
+        <!-- Project 1: Coal Mine Monitoring -->
+        <div class="project-card" data-category="web">
+            <h3>Coal Mine Safety Monitoring System</h3>
+
+            <p>
+                A web-based platform designed to monitor underground
+                coal mine conditions, display sensor readings, identify
+                potential risks, and support early warning alerts.
+            </p>
+
+            <span class="project-tag">Web Development</span>
+        </div>
+
+        <!-- Project 2: Noise Monitoring -->
+        <div class="project-card" data-category="iot">
             <h3>Noise Monitoring System</h3>
 
             <p>
-                An ESP8266-based project that monitors sound levels
+                An ESP8266-based IoT project that monitors sound levels
                 and displays information through a web dashboard.
             </p>
 
+            <span class="project-tag">Internet of Things</span>
         </div>
 
-    </section>
+        <!-- Project 3: Personal Finance Tracker -->
+        <div class="project-card" data-category="java">
+            <h3>Personal Finance Tracker</h3>
+
+            <p>
+                A Java-based application designed to record income
+                and expenses, categorize transactions, and help users
+                track their spending and manage their budget.
+            </p>
+
+            <span class="project-tag">Java Programming</span>
+        </div>
+
+    </div>
+
+</section>
 
     <!-- Contact Section -->
     <section id="contact" class="contact">

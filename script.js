@@ -351,4 +351,118 @@ document.addEventListener("DOMContentLoaded", function () {
 
     }
 
+    // ==========================================
+// FEATURE: INTERACTIVE SKILL CARDS
+// ==========================================
+
+const skillCards = document.querySelectorAll(".skill-card");
+
+const skillDetails = document.getElementById("skillDetails");
+
+// Information displayed for each skill
+const skillDescriptions = {
+
+    html: {
+        title: "HTML — Web Structure",
+        description:
+            "HTML is used to structure web pages with headings, paragraphs, images, links, tables, and forms. It provides the foundation of every website."
+    },
+
+    css: {
+        title: "CSS — Web Styling",
+        description:
+            "CSS controls the appearance of websites, including colors, layouts, typography, spacing, responsive designs, and animations."
+    },
+
+    javascript: {
+        title: "JavaScript — Web Interactivity",
+        description:
+            "JavaScript makes websites interactive. It can handle button clicks, animations, form validation, dynamic content, and user interactions."
+    },
+
+    java: {
+        title: "Java — Programming",
+        description:
+            "Java is an object-oriented programming language used to develop applications. It also helps build programming logic and practise data structures."
+    },
+
+    github: {
+        title: "GitHub — Version Control",
+        description:
+            "GitHub helps developers store code repositories, track changes, collaborate on projects, and share their work with others."
+    }
+
+};
+
+
+// Add click events to all skill cards
+
+skillCards.forEach(function (card) {
+
+    card.addEventListener("click", function () {
+
+        // Remove selection from every card
+        skillCards.forEach(function (item) {
+            item.classList.remove("selected");
+        });
+
+        // Highlight the clicked card
+        card.classList.add("selected");
+
+        // Read the selected skill
+        const skillName = card.dataset.skill;
+
+        const skill = skillDescriptions[skillName];
+
+        // Display its description
+        if (skill && skillDetails) {
+
+            const heading = document.createElement("h3");
+            heading.textContent = skill.title;
+
+            const paragraph = document.createElement("p");
+            paragraph.textContent = skill.description;
+
+            skillDetails.replaceChildren(heading, paragraph);
+
+        }
+
+    });
+
+});
+
+// FEATURE 3: PROJECT FILTERING
+
+const filterButtons = document.querySelectorAll(".filter-btn");
+const projectCards = document.querySelectorAll(".project-card");
+
+filterButtons.forEach(function (button) {
+
+    button.addEventListener("click", function () {
+
+        const selectedFilter = button.dataset.filter;
+
+        // Update the active button
+        filterButtons.forEach(function (btn) {
+            btn.classList.remove("active");
+        });
+
+        button.classList.add("active");
+
+        // Show or hide projects
+        projectCards.forEach(function (card) {
+
+            const category = card.dataset.category;
+
+            if (selectedFilter === "all" || category === selectedFilter) {
+                card.classList.remove("hidden");
+            } else {
+                card.classList.add("hidden");
+            }
+
+        });
+
+    });
+
+});
 });

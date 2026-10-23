@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,20 +6,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <meta name="description" content="Mayur Kanade's portfolio showcasing web development, Java programming, IoT projects, and technical skills.">
+
     <title>Mayur Kanade | Portfolio</title>
 
+    <!-- Your existing CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <!-- Navigation Bar -->
+    <!-- ================= NAVIGATION BAR ================= -->
     <header>
         <nav class="navbar">
 
             <div class="logo">
                 <h2>Mayur Kanade</h2>
-                <p>Engineering Student & Developer</p>
+                <p>Engineering Student &amp; Developer</p>
             </div>
 
             <ul class="nav-links">
@@ -32,7 +36,8 @@
         </nav>
     </header>
 
-    <!-- Hero Section -->
+
+    <!-- ================= HOME / HERO SECTION ================= -->
     <section id="home" class="hero">
 
         <div class="hero-content">
@@ -57,7 +62,8 @@
 
     </section>
 
-    <!-- About Section -->
+
+    <!-- ================= ABOUT SECTION ================= -->
     <section id="about" class="about">
 
         <div class="about-image">
@@ -83,157 +89,249 @@
 
     </section>
 
-    <!-- Skills Section -->
-    <!-- Interactive Skills Section -->
-<section id="skills" class="skills">
 
-    <h2>MY TECHNICAL SKILLS</h2>
+    <!-- ================= SKILLS SECTION ================= -->
+    <section id="skills" class="skills">
 
-    <p class="skills-subtitle">
-        Technologies I am learning and working with
-    </p>
+        <h2>MY TECHNICAL SKILLS</h2>
 
-    <div class="skills-container">
+        <p class="skills-subtitle">
+            Technologies I am learning and working with
+        </p>
 
-        <!-- HTML -->
-        <button class="skill-card" type="button" data-skill="html">
-            <span class="skill-icon">🌐</span>
-            <h3>HTML</h3>
-            <p>Web Structure</p>
-            <span class="skill-action">Explore →</span>
-        </button>
+        <div class="skills-container">
 
-        <!-- CSS -->
-        <button class="skill-card" type="button" data-skill="css">
-            <span class="skill-icon">🎨</span>
-            <h3>CSS</h3>
-            <p>Web Styling</p>
-            <span class="skill-action">Explore →</span>
-        </button>
+            <!-- HTML -->
+            <button
+                class="skill-card"
+                type="button"
+                data-skill="html"
+            >
+                <span class="skill-icon">🌐</span>
+                <h3>HTML</h3>
+                <p>Web Structure</p>
+                <span class="skill-action">Explore →</span>
+            </button>
 
-        <!-- JavaScript -->
-        <button class="skill-card" type="button" data-skill="javascript">
-            <span class="skill-icon">⚡</span>
-            <h3>JavaScript</h3>
-            <p>Web Interactivity</p>
-            <span class="skill-action">Explore →</span>
-        </button>
+            <!-- CSS -->
+            <button
+                class="skill-card"
+                type="button"
+                data-skill="css"
+            >
+                <span class="skill-icon">🎨</span>
+                <h3>CSS</h3>
+                <p>Web Styling</p>
+                <span class="skill-action">Explore →</span>
+            </button>
 
-        <!-- Java -->
-        <button class="skill-card" type="button" data-skill="java">
-            <span class="skill-icon">☕</span>
-            <h3>Java</h3>
-            <p>Programming</p>
-            <span class="skill-action">Explore →</span>
-        </button>
+            <!-- JavaScript -->
+            <button
+                class="skill-card"
+                type="button"
+                data-skill="javascript"
+            >
+                <span class="skill-icon">⚡</span>
+                <h3>JavaScript</h3>
+                <p>Web Interactivity</p>
+                <span class="skill-action">Explore →</span>
+            </button>
 
-        <!-- GitHub -->
-        <button class="skill-card" type="button" data-skill="github">
-            <span class="skill-icon">💻</span>
-            <h3>GitHub</h3>
-            <p>Version Control</p>
-            <span class="skill-action">Explore →</span>
-        </button>
+            <!-- Java -->
+            <button
+                class="skill-card"
+                type="button"
+                data-skill="java"
+            >
+                <span class="skill-icon">☕</span>
+                <h3>Java</h3>
+                <p>Programming</p>
+                <span class="skill-action">Explore →</span>
+            </button>
 
-    </div>
+            <!-- GitHub -->
+            <button
+                class="skill-card"
+                type="button"
+                data-skill="github"
+            >
+                <span class="skill-icon">💻</span>
+                <h3>GitHub</h3>
+                <p>Version Control</p>
+                <span class="skill-action">Explore →</span>
+            </button>
 
-    <!-- Dynamic skill description -->
-    <div id="skillDetails" aria-live="polite">
-        <h3>Explore My Skills</h3>
-        <p>Click on any card to discover more.</p>
-    </div>
-
-</section>
-
-    <!-- Projects Section -->
-<section id="projects" class="projects">
-
-    <h2>MY PROJECTS</h2>
-
-    <!-- Project Filter Buttons -->
-    <div class="project-filters">
-        <button class="filter-btn active" data-filter="all">
-            All
-        </button>
-
-        <button class="filter-btn" data-filter="web">
-            Web Development
-        </button>
-
-        <button class="filter-btn" data-filter="iot">
-            IoT
-        </button>
-
-        <button class="filter-btn" data-filter="java">
-            Java
-        </button>
-    </div>
-
-    <!-- Project Cards Container -->
-    <div class="projects-container">
-
-        <!-- Project 1: Coal Mine Monitoring -->
-        <div class="project-card" data-category="web">
-            <h3>Coal Mine Safety Monitoring System</h3>
-
-            <p>
-                A web-based platform designed to monitor underground
-                coal mine conditions, display sensor readings, identify
-                potential risks, and support early warning alerts.
-            </p>
-
-            <span class="project-tag">Web Development</span>
         </div>
 
-        <!-- Project 2: Noise Monitoring -->
-        <div class="project-card" data-category="iot">
-            <h3>Noise Monitoring System</h3>
-
-            <p>
-                An ESP8266-based IoT project that monitors sound levels
-                and displays information through a web dashboard.
-            </p>
-
-            <span class="project-tag">Internet of Things</span>
+        <!-- JavaScript updates this area when a skill is selected -->
+        <div id="skillDetails" aria-live="polite">
+            <h3>Explore My Skills</h3>
+            <p>Click on any card to discover more.</p>
         </div>
 
-        <!-- Project 3: Personal Finance Tracker -->
-        <div class="project-card" data-category="java">
-            <h3>Personal Finance Tracker</h3>
+    </section>
 
-            <p>
-                A Java-based application designed to record income
-                and expenses, categorize transactions, and help users
-                track their spending and manage their budget.
-            </p>
 
-            <span class="project-tag">Java Programming</span>
+    <!-- ================= PROJECTS SECTION ================= -->
+    <section id="projects" class="projects">
+
+        <h2>MY PROJECTS</h2>
+
+        <!-- Search and category filters -->
+        <div class="projects-toolbar">
+
+            <label class="sr-only" for="projectSearch">
+                Search projects
+            </label>
+
+            <input
+                id="projectSearch"
+                type="search"
+                placeholder="Search projects..."
+                autocomplete="off"
+            >
+
+            <div
+                class="project-filters"
+                role="group"
+                aria-label="Filter projects by category"
+            >
+
+                <button
+                    class="filter-btn active"
+                    type="button"
+                    data-filter="All"
+                >
+                    All
+                </button>
+
+                <button
+                    class="filter-btn"
+                    type="button"
+                    data-filter="Web Development"
+                >
+                    Web Development
+                </button>
+
+                <button
+                    class="filter-btn"
+                    type="button"
+                    data-filter="Java"
+                >
+                    Java
+                </button>
+
+                <button
+                    class="filter-btn"
+                    type="button"
+                    data-filter="IoT"
+                >
+                    IoT
+                </button>
+
+            </div>
+
         </div>
 
-    </div>
+        <!--
+            IMPORTANT:
+            JavaScript creates the three project cards inside this div.
+            Do not add another static projects-container here.
+        -->
+        <div
+            id="projectsGrid"
+            class="projects-grid"
+            aria-live="polite"
+        ></div>
 
-</section>
+        <!-- JavaScript displays selected project details here -->
+        <div
+            id="projectDetails"
+            class="project-details"
+            hidden
+            tabindex="-1"
+            aria-live="polite"
+        ></div>
 
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
+    </section>
+
+
+    <!-- ================= CONTACT SECTION ================= -->
+    <section id="contact" class="contact-section">
 
         <h2>CONTACT ME</h2>
 
         <p>Let's connect and collaborate!</p>
 
-        <a href="mailto:YOUR_EMAIL@example.com" class="btn">
-            EMAIL ME
-        </a>
+        <form id="contactForm" class="contact-form">
+
+            <div class="form-row">
+
+                <input
+                    type="text"
+                    id="contactName"
+                    name="name"
+                    placeholder="Your Full Name"
+                    autocomplete="name"
+                    required
+                >
+
+                <input
+                    type="email"
+                    id="contactEmail"
+                    name="email"
+                    placeholder="Your Email Address"
+                    autocomplete="email"
+                    required
+                >
+
+            </div>
+
+            <input
+                type="text"
+                id="contactSubject"
+                name="subject"
+                placeholder="Subject"
+                required
+            >
+
+            <textarea
+                id="contactMessage"
+                name="message"
+                placeholder="Write your message here..."
+                rows="6"
+                required
+            ></textarea>
+
+            <button
+                type="submit"
+                class="contact-submit"
+            >
+                Send Message
+            </button>
+
+            <p
+                id="contactStatus"
+                class="contact-status"
+                aria-live="polite"
+            ></p>
+
+        </form>
 
     </section>
 
-    <!-- Footer -->
+
+    <!-- ================= FOOTER ================= -->
     <footer>
-        <p>&copy; 2026 Mayur Kanade. All rights reserved.</p>
+        <p>
+            &copy; <span id="currentYear">2026</span>
+            Mayur Kanade. All rights reserved.
+        </p>
     </footer>
 
+
+    <!-- Your existing JavaScript -->
     <script src="script.js"></script>
 
 </body>
-
 </html>

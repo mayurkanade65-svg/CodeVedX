@@ -1,468 +1,642 @@
-// ==========================================
-// 1. WAIT UNTIL THE HTML PAGE IS LOADED
-// ==========================================
 
 document.addEventListener("DOMContentLoaded", function () {
+    "use strict";
 
-    console.log("Welcome to Mayur Kanade's Portfolio!");
+    // =====================================================
+    // 1. CONFIGURATION
+    // =====================================================
 
-//typing animation
+    // Replace this with your actual email address.
+    const YOUR_EMAIL = "YOUR_EMAIL@gmail.com";
 
-    const roleElement = document.querySelector(".hero-content h3");
+    // =====================================================
+    // 2. SKILLS SECTION
+    // =====================================================
 
-    if (roleElement) {
+    const skillCards = document.querySelectorAll(".skill-card");
+    const skillDetails = document.getElementById("skillDetails");
 
-        const roles = [
-            "Aspiring Software Developer",
-            "Web Development Enthusiast",
-            "Electronics & Telecommunication Student",
-            "Java Programmer"
-        ];
+    const skillsData = {
+        html: {
+            title: "HTML",
+            description:
+                "HTML creates the structure of web pages using headings, paragraphs, images, links, forms, and other elements."
+        },
+        css: {
+            title: "CSS",
+            description:
+                "CSS styles web pages using colors, layouts, spacing, responsive design, animations, and visual effects."
+        },
+        javascript: {
+            title: "JavaScript",
+            description:
+                "JavaScript adds interactivity to websites, including dynamic project cards, search, filters, form validation, and interactive features."
+        },
+        java: {
+            title: "Java",
+            description:
+                "Java is an object-oriented programming language used to build applications, implement logic, and solve programming problems."
+        },
+        github: {
+            title: "GitHub",
+            description:
+                "GitHub helps store code repositories, track changes, manage projects, and collaborate with other developers."
+        }
+    };
 
-        let roleIndex = 0;
-        let characterIndex = 0;
-        let deleting = false;
+    skillCards.forEach(function (card) {
+        card.addEventListener("click", function () {
+            const skill = card.dataset.skill;
+            const details = skillsData[skill];
 
-        function typeRole() {
+            if (!details || !skillDetails) return;
 
-            const currentRole = roles[roleIndex];
+            skillCards.forEach(function (item) {
+                item.classList.remove("selected");
+                item.setAttribute("aria-pressed", "false");
+            });
 
-            if (deleting) {
+            card.classList.add("selected");
+            card.setAttribute("aria-pressed", "true");
 
-                characterIndex--;
+            skillDetails.replaceChildren();
 
-            } else {
+            const heading = document.createElement("h3");
+            heading.textContent = details.title;
 
-                characterIndex++;
+            const paragraph = document.createElement("p");
+            paragraph.textContent = details.description;
 
-            }
+            skillDetails.append(heading, paragraph);
+        });
 
-            roleElement.textContent =
-                currentRole.substring(0, characterIndex);
+        card.setAttribute("aria-pressed", "false");
+    });
 
-            let delay = deleting ? 45 : 90;
 
-            if (!deleting && characterIndex === currentRole.length) {
+    // =====================================================
+    // 3. PROJECT DATA
+    // Edit project descriptions and links here.
+    // =====================================================
 
-                deleting = true;
-                delay = 1400;
+    const projects = [
+        {
+            id: "coal-mine",
+            title: "Coal Mine Safety & Monitoring",
+            category: "Web Development",
+            description:
+                "A web-based dashboard concept for monitoring coal-mine risk and alerts.",
+            fullDescription:
+                "A coal mine monitoring project concept designed to display mine conditions, sensor readings, potential risks, and early-warning alerts through a web dashboard.",
+            technologies: ["HTML", "CSS", "JavaScript", "IoT"],
+            features: [
+                "Dashboard for viewing mine-related information",
+                "Display of sensor readings and risk indicators",
+                "Early-warning alert interface concept"
+            ],
+            learning:
+                "This project provides an opportunity to practise dashboard design, data presentation, and the integration of web interfaces with monitoring systems.",
+            github: "",
+            demo: ""
+        },
+        {
+            id: "finance-tracker",
+            title: "Personal Finance Tracker",
+            category: "Java",
+            description:
+                "A Java project for recording expenses and tracking personal budgets.",
+            fullDescription:
+                "A personal finance application concept for recording income and expenses, categorising transactions, and helping users understand their spending.",
+            technologies: ["Java", "OOP"],
+            features: [
+                "Record income and expenses",
+                "Organise transactions into categories",
+                "Track spending and budget totals"
+            ],
+            learning:
+                "This project can help practise Java fundamentals, object-oriented programming, data handling, and financial calculations.",
+            github: "",
+            demo: ""
+        },
+        {
+            id: "noise-monitor",
+            title: "Noise Monitoring System",
+            category: "IoT",
+            description:
+                "An ESP8266-based project that monitors sound using a sensor and web dashboard.",
+            fullDescription:
+                "An IoT noise-monitoring project using an ESP8266, a sound sensor, indicator LEDs, and a web interface to show sound detection status.",
+            technologies: ["ESP8266", "Arduino IDE", "C++", "HTML", "CSS"],
+            features: [
+                "Read input from a sound sensor",
+                "Indicate noise status using LEDs",
+                "Display monitoring information on a web dashboard"
+            ],
+            learning:
+                "This project provides practical experience with microcontrollers, sensor inputs, Wi-Fi connectivity, and web-based monitoring.",
+            github: "",
+            demo: ""
+        }
+    ];
 
-            } else if (deleting && characterIndex === 0) {
+    // =====================================================
+    // 4. PROJECT ELEMENTS
+    // =====================================================
 
-                deleting = false;
+    const projectsGrid = document.getElementById("projectsGrid");
+    const projectDetails = document.getElementById("projectDetails");
+    const projectSearch = document.getElementById("projectSearch");
+    const filterButtons = document.querySelectorAll(".filter-btn");
 
-                roleIndex = (roleIndex + 1) % roles.length;
+    let activeCategory = "All";
+    let searchTerm = "";
+    let currentProjectIndex = 0;
 
-                delay = 400;
+    // Escape text before inserting it into generated HTML.
+    function escapeHTML(value) {
+        return String(value).replace(/[&<>"']/g, function (character) {
+            const entities = {
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;"
+            };
 
-            }
+            return entities[character];
+        });
+    }
 
-            setTimeout(typeRole, delay);
+    function getFilteredProjects() {
+        return projects.filter(function (project) {
+            const matchesCategory =
+                activeCategory === "All" ||
+                project.category === activeCategory;
 
+            const searchableText = [
+                project.title,
+                project.category,
+                project.description,
+                ...project.technologies
+            ].join(" ").toLowerCase();
+
+            const matchesSearch = searchableText.includes(
+                searchTerm.toLowerCase()
+            );
+
+            return matchesCategory && matchesSearch;
+        });
+    }
+
+    // =====================================================
+    // 5. RENDER PROJECT CARDS
+    // =====================================================
+
+    function renderProjects() {
+        if (!projectsGrid) return;
+
+        const filteredProjects = getFilteredProjects();
+
+        projectsGrid.replaceChildren();
+
+        if (projectDetails) {
+            projectDetails.hidden = true;
+            projectDetails.replaceChildren();
         }
 
-        typeRole();
+        projectsGrid.hidden = false;
 
+        if (filteredProjects.length === 0) {
+            const emptyMessage = document.createElement("p");
+            emptyMessage.className = "project-empty";
+            emptyMessage.textContent =
+                "No projects found. Try another search or category.";
+
+            projectsGrid.appendChild(emptyMessage);
+            return;
+        }
+
+        filteredProjects.forEach(function (project) {
+            const card = document.createElement("article");
+            card.className = "project-card";
+
+            const category = document.createElement("span");
+            category.className = "project-category";
+            category.textContent = project.category;
+
+            const heading = document.createElement("h3");
+            heading.textContent = project.title;
+
+            const description = document.createElement("p");
+            description.textContent = project.description;
+
+            const openButton = document.createElement("button");
+            openButton.type = "button";
+            openButton.className = "project-action secondary project-open-hint";
+            openButton.textContent = "View project details →";
+            openButton.addEventListener("click", function () {
+                openProject(project.id);
+            });
+
+            card.append(category, heading, description, openButton);
+            projectsGrid.appendChild(card);
+        });
+    }
+
+    // =====================================================
+    // 6. PROJECT DETAILS VIEW
+    // =====================================================
+
+    function openProject(projectId) {
+        if (!projectsGrid || !projectDetails) return;
+
+        const projectIndex = projects.findIndex(function (project) {
+            return project.id === projectId;
+        });
+
+        if (projectIndex === -1) return;
+
+        currentProjectIndex = projectIndex;
+
+        const project = projects[currentProjectIndex];
+
+        const technologiesHTML = project.technologies.map(function (tech) {
+            return `<span class="project-tag">${escapeHTML(tech)}</span>`;
+        }).join("");
+
+        const featuresHTML = project.features.map(function (feature) {
+            return `<li>${escapeHTML(feature)}</li>`;
+        }).join("");
+
+        const githubHTML = project.github
+            ? `<a class="project-action" href="${escapeHTML(project.github)}" target="_blank" rel="noopener noreferrer">View GitHub</a>`
+            : "";
+
+        const demoHTML = project.demo
+            ? `<a class="project-action" href="${escapeHTML(project.demo)}" target="_blank" rel="noopener noreferrer">Live Demo</a>`
+            : "";
+
+        projectDetails.innerHTML = `
+            <button type="button" class="project-back">
+                ← Back to all projects
+            </button>
+
+            <span class="project-category">
+                ${escapeHTML(project.category)}
+            </span>
+
+            <h2>${escapeHTML(project.title)}</h2>
+
+            <p>${escapeHTML(project.fullDescription)}</p>
+
+            <h3>Technologies Used</h3>
+            <div class="project-tags">
+                ${technologiesHTML}
+            </div>
+
+            <h3>Key Features</h3>
+            <ul>
+                ${featuresHTML}
+            </ul>
+
+            <h3>What I Learn From This Project</h3>
+            <p>${escapeHTML(project.learning)}</p>
+
+            <div class="project-actions">
+                ${githubHTML}
+                ${demoHTML}
+            </div>
+
+            <div class="project-pagination">
+                <button type="button"
+                    class="project-action secondary"
+                    data-project-direction="-1">
+                    ← Previous Project
+                </button>
+
+                <button type="button"
+                    class="project-action secondary"
+                    data-project-direction="1">
+                    Next Project →
+                </button>
+            </div>
+        `;
+
+        projectsGrid.hidden = true;
+        projectDetails.hidden = false;
+
+        projectDetails.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+
+        projectDetails.focus({ preventScroll: true });
+    }
+
+    // Use event delegation for buttons inside the details panel.
+    if (projectDetails) {
+        projectDetails.addEventListener("click", function (event) {
+            const backButton = event.target.closest(".project-back");
+
+            if (backButton) {
+                projectDetails.hidden = true;
+                projectsGrid.hidden = false;
+
+                projectsGrid.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+
+                return;
+            }
+
+            const paginationButton = event.target.closest(
+                "[data-project-direction]"
+            );
+
+            if (paginationButton) {
+                const direction = Number(
+                    paginationButton.dataset.projectDirection
+                );
+
+                const nextIndex =
+                    (currentProjectIndex + direction + projects.length) %
+                    projects.length;
+
+                openProject(projects[nextIndex].id);
+            }
+        });
+    }
+
+    // =====================================================
+    // 7. PROJECT SEARCH AND CATEGORY FILTERS
+    // =====================================================
+
+    if (projectSearch) {
+        projectSearch.addEventListener("input", function () {
+            searchTerm = projectSearch.value.trim();
+            renderProjects();
+        });
+    }
+
+    filterButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+            activeCategory = button.dataset.filter || "All";
+
+            filterButtons.forEach(function (item) {
+                item.classList.remove("active");
+                item.setAttribute("aria-pressed", "false");
+            });
+
+            button.classList.add("active");
+            button.setAttribute("aria-pressed", "true");
+
+            renderProjects();
+        });
+
+        button.setAttribute(
+            "aria-pressed",
+            button.classList.contains("active") ? "true" : "false"
+        );
+    });
+
+    // Render only the dynamic project cards.
+    // No second static projects-container is required.
+    renderProjects();
+
+
+    // =====================================================
+    // 8. CONTACT FORM
+    // This opens the visitor's email application.
+    // It does not send mail directly from the website.
+    // =====================================================
+
+    const contactForm = document.getElementById("contactForm");
+    const contactStatus = document.getElementById("contactStatus");
+
+    if (contactForm) {
+        contactForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            if (!contactForm.reportValidity()) return;
+
+            if (
+                !YOUR_EMAIL ||
+                YOUR_EMAIL === "YOUR_EMAIL@gmail.com"
+            ) {
+                if (contactStatus) {
+                    contactStatus.textContent =
+                        "Please configure your email address in script.js.";
+                }
+
+                return;
+            }
+
+            const name = document.getElementById("contactName").value.trim();
+            const email = document.getElementById("contactEmail").value.trim();
+            const subject = document.getElementById("contactSubject").value.trim();
+            const message = document.getElementById("contactMessage").value.trim();
+
+            const body = [
+                "Name: " + name,
+                "Reply email: " + email,
+                "",
+                "Message:",
+                message
+            ].join("\n");
+
+            const mailtoURL =
+                "mailto:" + YOUR_EMAIL +
+                "?subject=" + encodeURIComponent(subject) +
+                "&body=" + encodeURIComponent(body);
+
+            if (contactStatus) {
+                contactStatus.textContent =
+                    "Opening your email application. Please send the message there.";
+            }
+
+            window.location.href = mailtoURL;
+        });
     }
 
 
-    // ==========================================
-    // 3. MOBILE NAVIGATION MENU
-    // ==========================================
+    // =====================================================
+    // 9. MOBILE NAVIGATION
+    // Creates a menu button if the HTML does not already have one.
+    // =====================================================
 
     const navbar = document.querySelector(".navbar");
     const navLinks = document.querySelector(".nav-links");
 
     if (navbar && navLinks) {
+        let menuToggle = navbar.querySelector(".menu-toggle");
 
-        // Create the mobile menu button dynamically.
-        const menuButton = document.createElement("button");
+        if (!menuToggle) {
+            menuToggle = document.createElement("button");
+            menuToggle.type = "button";
+            menuToggle.className = "menu-toggle";
+            menuToggle.textContent = "☰";
+            menuToggle.setAttribute("aria-label", "Toggle navigation");
+            menuToggle.setAttribute("aria-expanded", "false");
 
-        menuButton.className = "menu-toggle";
-        menuButton.textContent = "☰";
-        menuButton.setAttribute("aria-label", "Open navigation menu");
-        menuButton.setAttribute("aria-expanded", "false");
+            navbar.appendChild(menuToggle);
+        }
 
-        navbar.appendChild(menuButton);
-
-        menuButton.addEventListener("click", function () {
-
+        menuToggle.addEventListener("click", function () {
             const isOpen = navLinks.classList.toggle("active");
 
-            menuButton.textContent = isOpen ? "✕" : "☰";
-
-            menuButton.setAttribute(
-                "aria-expanded",
-                String(isOpen)
-            );
-
-            menuButton.setAttribute(
-                "aria-label",
-                isOpen ? "Close navigation menu" : "Open navigation menu"
-            );
-
+            menuToggle.setAttribute("aria-expanded", String(isOpen));
+            menuToggle.textContent = isOpen ? "✕" : "☰";
         });
 
-        // Close the menu after clicking a navigation link.
         navLinks.querySelectorAll("a").forEach(function (link) {
-
             link.addEventListener("click", function () {
-
                 navLinks.classList.remove("active");
-
-                menuButton.textContent = "☰";
-
-                menuButton.setAttribute("aria-expanded", "false");
-
-                menuButton.setAttribute(
-                    "aria-label",
-                    "Open navigation menu"
-                );
-
+                menuToggle.setAttribute("aria-expanded", "false");
+                menuToggle.textContent = "☰";
             });
-
         });
-
     }
 
 
-    // ==========================================
-    // 4. SMOOTH SCROLLING
-    // ==========================================
+    // =====================================================
+    // 10. SMOOTH SCROLLING
+    // =====================================================
 
     document.querySelectorAll('a[href^="#"]').forEach(function (link) {
-
         link.addEventListener("click", function (event) {
-
             const targetId = link.getAttribute("href");
 
-            if (!targetId || targetId === "#") {
-                return;
-            }
+            if (!targetId || targetId === "#") return;
 
-            const targetElement = document.querySelector(targetId);
+            const target = document.querySelector(targetId);
 
-            if (targetElement) {
-
+            if (target) {
                 event.preventDefault();
 
-                targetElement.scrollIntoView({
+                target.scrollIntoView({
                     behavior: "smooth",
                     block: "start"
                 });
-
             }
-
         });
-
     });
 
 
-    // ==========================================
-    // 5. SCROLL REVEAL ANIMATION
-    // ==========================================
+    // =====================================================
+    // 11. ACTIVE NAVIGATION LINK
+    // =====================================================
 
-    const sections = document.querySelectorAll(
-        ".hero, .about, .skills, .projects, .contact"
+    const pageSections = document.querySelectorAll(
+        "section[id]"
+    );
+
+    const navigationLinks = document.querySelectorAll(
+        '.nav-links a[href^="#"]'
     );
 
     if ("IntersectionObserver" in window) {
+        const sectionObserver = new IntersectionObserver(
+            function (entries) {
+                entries.forEach(function (entry) {
+                    if (!entry.isIntersecting) return;
 
+                    navigationLinks.forEach(function (link) {
+                        const isCurrent =
+                            link.getAttribute("href") ===
+                            "#" + entry.target.id;
+
+                        link.classList.toggle("current", isCurrent);
+                    });
+                });
+            },
+            {
+                rootMargin: "-30% 0px -60% 0px",
+                threshold: 0
+            }
+        );
+
+        pageSections.forEach(function (section) {
+            sectionObserver.observe(section);
+        });
+    }
+
+
+    // =====================================================
+    // 12. SCROLL REVEAL ANIMATION
+    // =====================================================
+
+    const revealElements = document.querySelectorAll(
+        ".hero-content, .hero-image, .about-content, .about-image, .skill-card, #skillDetails, .projects-toolbar, .projects-grid, .contact-form"
+    );
+
+    if ("IntersectionObserver" in window) {
         const revealObserver = new IntersectionObserver(
             function (entries, observer) {
-
                 entries.forEach(function (entry) {
-
                     if (entry.isIntersecting) {
-
                         entry.target.classList.add("visible");
-
                         observer.unobserve(entry.target);
-
                     }
-
                 });
-
             },
             {
                 threshold: 0.12
             }
         );
 
-        sections.forEach(function (section) {
-
-            section.classList.add("reveal");
-
-            revealObserver.observe(section);
-
+        revealElements.forEach(function (element) {
+            element.classList.add("reveal");
+            revealObserver.observe(element);
         });
-
     } else {
-
-        // Fallback for older browsers.
-        sections.forEach(function (section) {
-
-            section.classList.add("visible");
-
+        revealElements.forEach(function (element) {
+            element.classList.add("visible");
         });
-
     }
 
 
-    // ==========================================
-    // 6. HIGHLIGHT ACTIVE NAVIGATION LINK
-    // ==========================================
+    // =====================================================
+    // 13. BACK-TO-TOP BUTTON
+    // =====================================================
 
-    const navigationLinks = document.querySelectorAll(".nav-links a");
+    let backToTop = document.getElementById("backToTop");
 
-    const pageSections = document.querySelectorAll(
-        "#home, #about, #skills, #projects, #contact"
-    );
+    if (!backToTop) {
+        backToTop = document.createElement("button");
+        backToTop.id = "backToTop";
+        backToTop.type = "button";
+        backToTop.textContent = "↑";
+        backToTop.setAttribute("aria-label", "Back to top");
 
-    if ("IntersectionObserver" in window) {
-
-        const activeObserver = new IntersectionObserver(
-            function (entries) {
-
-                entries.forEach(function (entry) {
-
-                    if (entry.isIntersecting) {
-
-                        navigationLinks.forEach(function (link) {
-
-                            link.classList.remove("current");
-
-                            if (
-                                link.getAttribute("href") ===
-                                "#" + entry.target.id
-                            ) {
-
-                                link.classList.add("current");
-
-                            }
-
-                        });
-
-                    }
-
-                });
-
-            },
-            {
-                rootMargin: "-20% 0px -65% 0px"
-            }
-        );
-
-        pageSections.forEach(function (section) {
-
-            activeObserver.observe(section);
-
-        });
-
+        document.body.appendChild(backToTop);
     }
 
+    function updateBackToTop() {
+        backToTop.classList.toggle("show", window.scrollY > 300);
+    }
 
-    // ==========================================
-    // 7. BACK-TO-TOP BUTTON
-    // ==========================================
-
-    const topButton = document.createElement("button");
-
-    topButton.id = "backToTop";
-    topButton.innerHTML = "↑";
-
-    topButton.setAttribute("aria-label", "Back to top");
-
-    document.body.appendChild(topButton);
-
-    // Show the button after scrolling.
-    window.addEventListener("scroll", function () {
-
-        if (window.scrollY > 300) {
-
-            topButton.classList.add("show");
-
-        } else {
-
-            topButton.classList.remove("show");
-
-        }
-
+    window.addEventListener("scroll", updateBackToTop, {
+        passive: true
     });
 
-    // Return to the top when clicked.
-    topButton.addEventListener("click", function () {
+    updateBackToTop();
 
+    backToTop.addEventListener("click", function () {
         window.scrollTo({
             top: 0,
             behavior: "smooth"
         });
-
     });
 
 
-    // ==========================================
-    // 8. DYNAMIC FOOTER YEAR
-    // ==========================================
+    // =====================================================
+    // 14. AUTOMATIC FOOTER YEAR
+    // =====================================================
 
-    const footerText = document.querySelector("footer p");
+    const currentYear = document.getElementById("currentYear");
 
-    if (footerText) {
-
-        footerText.innerHTML =
-            "&copy; " +
-            new Date().getFullYear() +
-            " Mayur Kanade. All rights reserved.";
-
+    if (currentYear) {
+        currentYear.textContent = new Date().getFullYear();
     }
-
-
-    // ==========================================
-    // 9. CONTACT BUTTON INTERACTION
-    // ==========================================
-
-    const emailButton = document.querySelector(
-        '#contact a[href^="mailto:"]'
-    );
-
-    if (emailButton) {
-
-        emailButton.addEventListener("click", function (event) {
-
-            const emailAddress = emailButton
-                .getAttribute("href")
-                .replace("mailto:", "")
-                .trim();
-
-            if (
-                !emailAddress ||
-                emailAddress === "YOUR_EMAIL@example.com"
-            ) {
-
-                event.preventDefault();
-
-                alert(
-                    "Please configure your email address in index.html."
-                );
-
-            }
-
-        });
-
-    }
-
-    // ==========================================
-// FEATURE: INTERACTIVE SKILL CARDS
-// ==========================================
-
-const skillCards = document.querySelectorAll(".skill-card");
-
-const skillDetails = document.getElementById("skillDetails");
-
-// Information displayed for each skill
-const skillDescriptions = {
-
-    html: {
-        title: "HTML — Web Structure",
-        description:
-            "HTML is used to structure web pages with headings, paragraphs, images, links, tables, and forms. It provides the foundation of every website."
-    },
-
-    css: {
-        title: "CSS — Web Styling",
-        description:
-            "CSS controls the appearance of websites, including colors, layouts, typography, spacing, responsive designs, and animations."
-    },
-
-    javascript: {
-        title: "JavaScript — Web Interactivity",
-        description:
-            "JavaScript makes websites interactive. It can handle button clicks, animations, form validation, dynamic content, and user interactions."
-    },
-
-    java: {
-        title: "Java — Programming",
-        description:
-            "Java is an object-oriented programming language used to develop applications. It also helps build programming logic and practise data structures."
-    },
-
-    github: {
-        title: "GitHub — Version Control",
-        description:
-            "GitHub helps developers store code repositories, track changes, collaborate on projects, and share their work with others."
-    }
-
-};
-
-
-// Add click events to all skill cards
-
-skillCards.forEach(function (card) {
-
-    card.addEventListener("click", function () {
-
-        // Remove selection from every card
-        skillCards.forEach(function (item) {
-            item.classList.remove("selected");
-        });
-
-        // Highlight the clicked card
-        card.classList.add("selected");
-
-        // Read the selected skill
-        const skillName = card.dataset.skill;
-
-        const skill = skillDescriptions[skillName];
-
-        // Display its description
-        if (skill && skillDetails) {
-
-            const heading = document.createElement("h3");
-            heading.textContent = skill.title;
-
-            const paragraph = document.createElement("p");
-            paragraph.textContent = skill.description;
-
-            skillDetails.replaceChildren(heading, paragraph);
-
-        }
-
-    });
-
-});
-
-// FEATURE 3: PROJECT FILTERING
-
-const filterButtons = document.querySelectorAll(".filter-btn");
-const projectCards = document.querySelectorAll(".project-card");
-
-filterButtons.forEach(function (button) {
-
-    button.addEventListener("click", function () {
-
-        const selectedFilter = button.dataset.filter;
-
-        // Update the active button
-        filterButtons.forEach(function (btn) {
-            btn.classList.remove("active");
-        });
-
-        button.classList.add("active");
-
-        // Show or hide projects
-        projectCards.forEach(function (card) {
-
-            const category = card.dataset.category;
-
-            if (selectedFilter === "all" || category === selectedFilter) {
-                card.classList.remove("hidden");
-            } else {
-                card.classList.add("hidden");
-            }
-
-        });
-
-    });
-
-});
 });
